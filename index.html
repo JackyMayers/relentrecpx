@@ -10,7 +10,8 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
-      background-color: #f2f2f2;
+      background-color: #121212;
+      color: #e0e0e0;
     }
     .container {
       display: flex;
@@ -20,21 +21,26 @@
     .form, .results {
       flex: 1;
       min-width: 300px;
-      background: #fff;
+      background: #2c2c2c;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
     textarea {
       width: 100%;
       height: 100px;
+      background-color: #333;
+      color: #e0e0e0;
+      border: 1px solid #555;
     }
     select, input, textarea {
       width: 100%;
       margin-bottom: 10px;
       padding: 8px;
       border-radius: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid #555;
+      background-color: #333;
+      color: #e0e0e0;
     }
     button {
       padding: 10px;
@@ -74,17 +80,17 @@
     </div>
     <div class="results">
       <h3>Aprovados</h3>
-      <textarea id="resultadoAprovados"></textarea> <!-- Aqui o readonly foi removido -->
+      <textarea id="resultadoAprovados"></textarea>
       <button class="copiar" onclick="copiarTexto('resultadoAprovados')">Copiar Aprovados</button>
       <button class="limpar-individual" onclick="limparResultado('resultadoAprovados')">Limpar Aprovados</button>
       
       <h3>Reprovados (Detalhado)</h3>
-      <textarea id="resultadoReprovadosDetalhado"></textarea> <!-- Aqui o readonly foi removido -->
+      <textarea id="resultadoReprovadosDetalhado"></textarea>
       <button class="copiar" onclick="copiarTexto('resultadoReprovadosDetalhado')">Copiar Detalhado</button>
       <button class="limpar-individual" onclick="limparResultado('resultadoReprovadosDetalhado')">Limpar Detalhado</button>
       
       <h3>Reprovados (ID e Motivo)</h3>
-      <textarea id="resultadoReprovadosSimples"></textarea> <!-- Aqui o readonly foi removido -->
+      <textarea id="resultadoReprovadosSimples"></textarea>
       <button class="copiar" onclick="copiarTexto('resultadoReprovadosSimples')">Copiar Simples</button>
       <button class="limpar-individual" onclick="limparResultado('resultadoReprovadosSimples')">Limpar Simples</button>
     </div>
@@ -159,13 +165,11 @@
       navigator.clipboard.writeText(texto).then(() => alert('Texto copiado!'));
     }
   </script>
-  
+
 </body>
 <center>
     <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image" width="150">
     <p>Direitos Reservados © 2025 <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a>.</p>
 </center>
-
-
 
 </html>
