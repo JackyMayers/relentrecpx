@@ -53,6 +53,13 @@
     button.limpar { background-color: #555; color: white; }
     button.copiar { background-color: #2196F3; color: white; margin-top: 5px; }
     .limpar-individual { background-color: #ff9800; color: white; margin-top: 5px; }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #2c2c2c;
+      border-top: 1px solid #555;
+    }
   </style>
 </head>
 <body>
@@ -60,7 +67,7 @@
     <div class="form">
       <h2>Entrevista Complexo XP</h2>
       <input type="text" id="nome" placeholder="Nome Completo (IRL)">
-      <input type="date" id="idade" placeholder="Idade">
+      <input type="text" id="data" placeholder="Data de Nascimento (Ex: 20-12-1985)">
       <input type="text" id="discord" placeholder="ID Discord">
       <input type="text" id="entrevista" placeholder="Número da Entrevista">
       <select id="rumo">
@@ -95,9 +102,15 @@
     </div>
   </div>
 
+  <footer>
+    <p>© 2025 - Todos os direitos reservados. Feito com ❤ e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank" style="color: #e0e0e0;">Jacky Mayers</a> !</p>
+	<img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image" width="150">
+	
+  </footer>
+
   <script>
     window.onload = () => {
-      ['nome', 'idade', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
+      ['nome', 'data', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
         if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
       });
       ['resultadoAprovados', 'resultadoReprovadosDetalhado', 'resultadoReprovadosSimples'].forEach(id => {
@@ -113,7 +126,7 @@
 
     function adicionar(status) {
       const nome = document.getElementById('nome').value.trim();
-      const idade = document.getElementById('idade').value;
+      const data = formatarData(document.getElementById('data').value.trim());
       const discord = document.getElementById('discord').value.trim();
       const entrevista = document.getElementById('entrevista').value.trim();
       const rumoSelect = document.getElementById('rumo').value;
@@ -121,22 +134,20 @@
       const observacoes = document.getElementById('observacoes').value.trim();
 
       const rumo = rumoSelect === 'Outro' ? rumoOutro : rumoSelect;
-      const idadeFormatada = idade ? new Date(idade).toLocaleDateString('pt-BR') : '';
 
-      if (!nome || !idadeFormatada || !discord || !entrevista || !rumo) {
+      if (!nome || !data || !discord || !entrevista || !rumo) {
         alert("Preencha todos os campos obrigatórios!");
         return;
       }
 
       if (status === 'aprovado') {
-        const resultado = `Nome do Aprovado (IRL): ${nome}\nIdade: ${idadeFormatada}\nID Discord: ${discord} |<@${discord}>\nNúmero da Entrevista: ${entrevista}\nRumo: ${rumo}\n${observacoes ? 'Observações: ' + observacoes : ''}\n`;
+        const resultado = `Nome do Aprovado (IRL): ${nome}\nData de Nascimento: ${data}\nID Discord: ${discord} |<@${discord}>\nNúmero da Entrevista: ${entrevista}\nRumo: ${rumo}\n${observacoes ? 'Observações: ' + observacoes : ''}\n`;
         document.getElementById('resultadoAprovados').value += `\n${resultado}\n`;
         localStorage.setItem('resultadoAprovados', document.getElementById('resultadoAprovados').value);
       } else {
-        const detalhado = `Nome do reprovado (IRL): ${nome}\nIdade: ${idadeFormatada}\nID Discord: ${discord} |<@${discord}>\nNúmero da Entrevista: ${entrevista}\nRumo: ${rumo}\n${observacoes ? 'Observações: ' + observacoes : ''}\n`;
+        const detalhado = `Nome do reprovado (IRL): ${nome}\nData de Nascimento: ${data}\nID Discord: ${discord} |<@${discord}>\nNúmero da Entrevista: ${entrevista}\nRumo: ${rumo}\n${observacoes ? 'Observações: ' + observacoes : ''}\n`;
         const simples = `${discord} | <@${discord}> - Reprovado Entrevista: ${observacoes ? observacoes : ''}`;
         
-        // Adicionando as observações na reprovação detalhada
         document.getElementById('resultadoReprovadosDetalhado').value += `\n${detalhado}\n`;
         document.getElementById('resultadoReprovadosSimples').value += `\n${simples}\n`;
         
@@ -147,8 +158,20 @@
       limparCampos(true);
     }
 
+    function formatarData(data) {
+      const dataRegex = /(\d{2})[-\/.]?(\d{2})[-\/.]?(\d{4})/;
+      const match = data.match(dataRegex);
+
+      if (match) {
+        return `${match[1]}/${match[2]}/${match[3]}`;
+      } else {
+        alert('Formato de data inválido. Use: DD-MM-YYYY, DD/MM/YYYY, ou DDMMAAAA.');
+        return '';
+      }
+    }
+
     function limparCampos(aprovacao = false) {
-      ['nome', 'idade', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
+      ['nome', 'data', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
         document.getElementById(id).value = '';
         if (!aprovacao) localStorage.removeItem(id);
       });
@@ -160,15 +183,11 @@
     }
 
     function copiarTexto(id) {
-      const texto = document.getElementById(id).value;
-      navigator.clipboard.writeText(texto).then(() => alert('Texto copiado!'));
+      const texto = document.getElementById(id);
+      texto.select();
+      document.execCommand('copy');
+      alert('Texto copiado!');
     }
   </script>
 </body>
-
-<center>
-  <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image" width="150">
-  <p>Direitos Reservados © 2025 <a href="https://jackymayers.github.io/" target="_blank" style="color: #e0e0e0;">Jacky Mayers</a></p>
-</center>
-
 </html>
