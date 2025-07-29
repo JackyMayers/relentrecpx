@@ -7,120 +7,202 @@
   <link rel="icon" href="https://i.postimg.cc/MG7qzW4x/emote.png" type="image/x-icon">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #121212;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais moderna */
+      margin: 0;
+      padding: 20px;
+      background-color: #1a1a1a; /* Fundo mais escuro */
       color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
     .container {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
+      width: 100%;
+      max-width: 1200px; /* Limite a largura para melhor visualização */
+      margin-bottom: 20px;
     }
     .form, .results {
       flex: 1;
       min-width: 300px;
-      background: #2c2c2c;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      background: #282828; /* Fundo dos painéis */
+      padding: 25px;
+      border-radius: 12px; /* Cantos mais arredondados */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
+      transition: all 0.3s ease;
+    }
+    .form:hover, .results:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+    h2, h3 {
+      color: #f0f0f0;
+      margin-top: 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #3a3a3a;
+      padding-bottom: 10px;
     }
     textarea {
       width: 100%;
-      height: 100px;
-      background-color: #333;
-      color: #ffffff; /* Cor do texto digitado - BRANCO */
+      height: 120px; /* Altura um pouco maior */
+      background-color: #383838;
+      color: #ffffff;
       border: 1px solid #555;
+      border-radius: 8px; /* Cantos arredondados */
+      padding: 10px;
+      resize: vertical; /* Permite redimensionar verticalmente */
+      font-size: 0.95em;
     }
-    select, input, textarea {
+    select, input {
       width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      border-radius: 5px;
+      margin-bottom: 15px; /* Mais espaço entre os campos */
+      padding: 10px;
+      border-radius: 8px;
       border: 1px solid #555;
-      background-color: #333;
-      color: #ffffff; /* Cor do texto digitado - BRANCO */
+      background-color: #383838;
+      color: #ffffff;
+      font-size: 0.95em;
     }
     /* Estilo para o placeholder */
     ::placeholder {
-      color: #aaaaaa; /* Cor mais clara para o placeholder */
-      opacity: 1; /* Garante que não esteja transparente em alguns navegadores */
-    }
-    :-ms-input-placeholder { /* Para Internet Explorer 10-11 */
       color: #aaaaaa;
+      opacity: 1;
     }
-    ::-ms-input-placeholder { /* Para Microsoft Edge */
-      color: #aaaaaa;
-    }
-
     #idade {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-      border: none;
+      background-color: #333; /* Fundo sutilmente diferente */
+      color: #c0c0c0;
+      border: 1px solid #444;
       font-weight: bold;
-      margin-top: -10px;
-      margin-bottom: 10px;
+      margin-top: -5px; /* Ajuste fino */
+      margin-bottom: 15px;
     }
     button {
-      padding: 10px;
+      padding: 12px 20px; /* Mais padding para os botões */
       margin-right: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      min-width: 120px; /* Largura mínima para botões */
     }
-    button.aprovar { background-color: #4CAF50; color: white; }
-    button.reprovar { background-color: #f44336; color: white; }
-    button.limpar { background-color: #555; color: white; }
-    button.copiar { background-color: #2196F3; color: white; margin-top: 5px; }
-    .limpar-individual { background-color: #ff9800; color: white; margin-top: 5px; }
+    button:hover {
+        transform: translateY(-2px);
+    }
+    button.aprovar { background-color: #28a745; color: white; } /* Verde para aprovar */
+    button.aprovar:hover { background-color: #218838; }
+    button.reprovar { background-color: #dc3545; color: white; } /* Vermelho para reprovar */
+    button.reprovar:hover { background-color: #c82333; }
+    button.limpar { background-color: #6c757d; color: white; } /* Cinza para limpar */
+    button.limpar:hover { background-color: #5a6268; }
+    button.copiar { background-color: #007bff; color: white; margin-top: 10px; } /* Azul para copiar */
+    button.copiar:hover { background-color: #0056b3; }
+    .limpar-individual { background-color: #6c757d; color: white; margin-top: 10px; }
+    .limpar-individual:hover { background-color: #5a6268; }
+
+    /* Novas classes para layout flexível de botões e inputs */
+    .botoes-principais, .input-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Espaço consistente */
+        margin-bottom: 15px;
+    }
+    .botoes-principais button, .input-group > * {
+        flex: 1 1 0; /* Flexibilidade padrão */
+        min-width: 140px; /* Largura mínima razoável */
+    }
+
     footer {
       text-align: center;
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #2c2c2c;
-      border-top: 1px solid #555;
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #282828;
+      border-top: 1px solid #3a3a3a;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 1200px;
+      color: #b0b0b0;
+    }
+    footer a {
+        color: #88aaff;
+        text-decoration: none;
+    }
+    footer a:hover {
+        text-decoration: underline;
     }
     .lembrete {
       text-align: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      padding: 10px;
-      background-color: #222;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      padding: 15px;
+      background-color: #333;
       border: 1px solid #555;
-      border-radius: 5px;
-      color: #ff9800;
+      border-radius: 8px;
+      color: #ffc107; /* Amarelo sutil para avisos */
       font-weight: bold;
+      width: 100%;
+      max-width: 1200px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     /* Estilos para o images-container */
     .images-container {
       display: flex;
       justify-content: center;
       gap: 20px;
-      margin-top: 20px;
-      margin-bottom: 10px;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      flex-wrap: wrap; /* Para ser responsivo */
     }
     .images-container img {
-      width: 100px;
+      width: 110px; /* Imagens ligeiramente maiores */
       height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       cursor: pointer;
-      transition: transform 0.15s ease-in-out;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .images-container img:hover {
-      transform: scale(1.08) rotate(-3deg);
+      transform: scale(1.1) rotate(-3deg);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     }
     .reprove-tip {
-      margin-top: 15px;
-      padding: 10px;
-      background-color: #3a3a3a;
-      border-left: 4px solid #f44336; /* Cor da borda para destacar como dica de reprovação */
-      border-radius: 5px;
-      font-size: 0.9em;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #333;
+      border-left: 5px solid #dc3545; /* Cor vermelha do reprovar */
+      border-radius: 8px;
+      font-size: 0.95em;
       color: #e0e0e0;
+      line-height: 1.5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     .reprove-tip strong {
-      color: #f44336; /* Deixa o "Reprovar" em destaque na mensagem */
+      color: #dc3545;
+    }
+    .reprove-tip a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .reprove-tip a:hover {
+        text-decoration: underline;
+    }
+
+    /* Feedback de cópia */
+    #copyFeedback {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -128,29 +210,39 @@
   <div class="container">
     <div class="form">
       <h2>Entrevista Complexo XP</h2>
-      <input type="text" id="nome" placeholder="Nome Completo (IRL)">
-      <input type="text" id="data" placeholder="Data de Nascimento (Ex: dd mm aaaa)">
-      <input type="text" id="idade" placeholder="Idade" disabled>
-      <input type="text" id="discord" placeholder="ID Discord">
-      <input type="text" id="nomePersonagem" placeholder="Nome do Personagem (RP)">
-      <input type="text" id="entrevista" placeholder="Número da Entrevista">
-      <select id="rumo">
-        <option value="">Selecione o Rumo</option>
-        <option value="Policia">Policia</option>
-        <option value="Mecanica">Mecanica</option>
-        <option value="Hospital">Hospital</option>
-        <option value="Ilegal">Ilegal</option>
-        <option value="Outro">Outro (especifique abaixo)</option>
-      </select>
-      <input type="text" id="rumoOutro" placeholder="Outro Rumo (se aplicável)">
-      <textarea id="observacoes" placeholder="Observações ou motivo da reprovação..."></textarea>
-      <button class="aprovar" onclick="adicionar('aprovado')">Aprovar</button>
-      <button class="reprovar" onclick="adicionar('reprovado')">Reprovar</button>
-      <button class="limpar" onclick="limparCampos()">Limpar Tudo</button>
-      <div class="reprove-tip">
-        <strong>Atenção:</strong> Agora você consegue <strong>Reprovar</strong> sem precisar preencher todos os campos, usando apenas o ID Discord!<br>
-        <span style="color:#ffe082;font-weight:bold;">ℹ️</span> Aqui está o documento que deve ser repassado para o entrevistado: <a href="https://docs.google.com/document/d/1FRO7mZaNyVMSYKPTDAvXHE1kXz14GlOz5VGh7FhR-Kg/edit?pli=1&tab=t.0" style="color: red;" target="_blank">Regras básicas.</a>
+      <div class="input-group">
+        <input type="text" id="nome" placeholder="Nome Completo (IRL)" autocomplete="off">
+        <input type="text" id="data" placeholder="Data de Nascimento (Ex: dd mm aaaa)" autocomplete="off">
+        <input type="text" id="idade" placeholder="Idade" disabled>
       </div>
+      <div class="input-group">
+        <input type="text" id="discord" placeholder="ID Discord" autocomplete="off">
+        <input type="text" id="nomePersonagem" placeholder="Nome do Personagem (RP)" autocomplete="off">
+        <input type="text" id="entrevista" placeholder="Número da Entrevista" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <select id="rumo">
+          <option value="">Selecione o Rumo</option>
+          <option value="Policia">Policia</option>
+          <option value="Mecanica">Mecanica</option>
+          <option value="Hospital">Hospital</option>
+          <option value="Ilegal">Ilegal</option>
+          <option value="Outro">Outro (especifique abaixo)</option>
+        </select>
+        <input type="text" id="rumoOutro" placeholder="Outro Rumo (se aplicável)" autocomplete="off">
+      </div>
+      <textarea id="observacoes" placeholder="Observações ou motivo da reprovação..."></textarea>
+      
+      <div class="botoes-principais">
+        <button class="aprovar" onclick="adicionar('aprovado')">Aprovar</button>
+        <button class="reprovar" onclick="adicionar('reprovado')">Reprovar</button>
+        <button class="limpar" onclick="limparCampos()">Limpar Tudo</button>
+      </div>
+      
+      <div class="reprove-tip">        
+        <strong>Atenção:</strong> Você pode <strong>Reprovar</strong> usando apenas o ID Discord, sem preencher todos os campos.<br>        
+        <span style="color:#e0e0e0;">ℹ️</span> Documento para o entrevistado: <a href="https://docs.google.com/document/d/1FRO7mZaNyVMSYKPTDAvXHE1kXz14GlOz5VGh7FhR-Kg/edit?pli=1&tab=t.0" target="_blank">Regras básicas.</a>      
+      </div>    
     </div>
     <div class="results">
       <h3>Aprovados</h3>
@@ -176,12 +268,11 @@
   <div class="lembrete">
     Lembrete: Ao reprovar, lembre-se de remover a tag "Entrevista" e adicionar a tag "Visitante".
   </div>
-
+  <div id="copyFeedback">Copiado!</div>
   <footer>
     <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Mascote Jacky" width="150">
-    <p>© 2025 - Todos os direitos reservados. Feito com ❤, ajuda de IA e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank" style="color: #e0e0e0;">Jacky Mayers</a> !</p>
+    <p>© 2025 - Todos os direitos reservados. Feito com ❤, ajuda de IA e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a> !</p>
   </footer>
-
   <script>
     window.onload = () => {
       // Carrega os dados salvos do localStorage, incluindo 'nomePersonagem'
@@ -192,12 +283,23 @@
         if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
       });
       calcularIdade();
+      // Não há chamadas para atualizar contadores visuais ou gerais aqui, pois não há elementos HTML para exibi-los.
     }
 
     document.querySelectorAll('input, textarea, select').forEach(el => {
       el.addEventListener('input', () => {
         localStorage.setItem(el.id, el.value);
       });
+    });
+
+    // Listener para limpar 'rumoOutro' quando o 'rumo' selecionado não é 'Outro'
+    document.getElementById('rumo').addEventListener('change', () => {
+        const rumoSelect = document.getElementById('rumo');
+        const rumoOutro = document.getElementById('rumoOutro');
+        if (rumoSelect.value !== 'Outro') {
+            rumoOutro.value = '';
+            localStorage.removeItem('rumoOutro');
+        }
     });
 
     document.getElementById('data').addEventListener('input', calcularIdade);
@@ -242,15 +344,22 @@
       }
       document.getElementById(id).value = '';
       localStorage.removeItem(id);
+      // Não há atualização visual de contadores aqui, pois não há elementos HTML para isso
     }
 
-    function copiarTexto(id) {
-      const texto = document.getElementById(id);
-      texto.select();
-      document.execCommand('copy');
-      alert('Texto copiado!');
-      texto.setSelectionRange(0, 0);
-      texto.blur();
+    async function copiarTexto(id) {
+      const texto = document.getElementById(id).value;
+      const feedbackDiv = document.getElementById('copyFeedback');
+      try {
+        await navigator.clipboard.writeText(texto);
+        feedbackDiv.style.opacity = '1';
+        setTimeout(() => {
+          feedbackDiv.style.opacity = '0';
+        }, 1500);
+      } catch (err) {
+        console.error('Falha ao copiar texto: ', err);
+        alert('Erro ao copiar o texto. Por favor, copie manualmente.');
+      }
     }
 
     function adicionar(status) {
@@ -258,16 +367,24 @@
       const data = formatarData(document.getElementById('data').value.trim());
       const idade = document.getElementById('idade').value.trim();
       const discord = document.getElementById('discord').value.trim();
-      const nomePersonagem = document.getElementById('nomePersonagem').value.trim(); // Pega o valor do novo campo
+      const nomePersonagem = document.getElementById('nomePersonagem').value.trim();
       const entrevista = document.getElementById('entrevista').value.trim();
       const rumoSelect = document.getElementById('rumo').value;
       const rumoOutro = document.getElementById('rumoOutro').value.trim();
       const observacoes = document.getElementById('observacoes').value.trim();
-      const rumo = rumoSelect === 'Outro' ? rumoOutro : rumoSelect;
+      const rumo = (rumoSelect === 'Outro' && rumoOutro) ? rumoOutro : rumoSelect;
 
       if (!discord) {
         alert("O ID Discord é obrigatório para aprovar ou reprovar!");
         return;
+      }
+
+      // Validação flexível do ID Discord: avisa, mas permite continuar
+      const idDiscordValido = /^\d{17,20}$/.test(discord);
+      if (!idDiscordValido) {
+        if (!confirm("ATENÇÃO: O ID Discord parece não estar no formato correto (apenas números, geralmente entre 17 e 20 dígitos).\n\nDeseja continuar mesmo assim?")) {
+          return;
+        }
       }
 
       if (status === 'aprovado') {
@@ -282,7 +399,7 @@
         if (discord) resultadoAprovadosStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) resultadoAprovadosStr.push(`**Número da Entrevista:** ${entrevista}`);
         if (rumo) resultadoAprovadosStr.push(`**Rumo:** ${rumo}`);
-        if (nomePersonagem) resultadoAprovadosStr.push(`**Nome do Personagem :** ${nomePersonagem}`); // Inclui o nome do personagem
+        if (nomePersonagem) resultadoAprovadosStr.push(`**Nome do Personagem :** ${nomePersonagem}`);
         if (observacoes) resultadoAprovadosStr.push(`**Observações:** ${observacoes}`);
 
         const resultadoAprovados = document.getElementById('resultadoAprovados');
@@ -290,13 +407,18 @@
         localStorage.setItem('resultadoAprovados', resultadoAprovados.value);
 
       } else { // status === 'reprovado'
+        // Confirmação para reprovação
+        if (!confirm("Tem certeza que deseja reprovar esta entrevista?")) {
+            return;
+        }
+
         let detalhadoStr = [];
         if (nome) detalhadoStr.push(`**Nome do Reprovado (IRL):** ${nome}`);
         if (data) detalhadoStr.push(`**Data de Nascimento:** ${data} (${idade})`);
         if (discord) detalhadoStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) detalhadoStr.push(`**Número da Entrevista:** ${entrevista}`);
         if (rumo) detalhadoStr.push(`**Rumo:** ${rumo}`);
-        if (nomePersonagem) detalhadoStr.push(`**Nome do Personagem :** ${nomePersonagem}`); // Inclui o nome do personagem
+        if (nomePersonagem) detalhadoStr.push(`**Nome do Personagem :** ${nomePersonagem}`);
         if (observacoes) detalhadoStr.push(`**Observações:** ${observacoes}`);
         else detalhadoStr.push(`**Observações:** Motivo não informado.`);
 
@@ -304,11 +426,17 @@
         resultadoDetalhado.value += (resultadoDetalhado.value.trim() ? '\n\n' : '') + detalhadoStr.join('\n');
         localStorage.setItem('resultadoReprovadosDetalhado', resultadoDetalhado.value);
 
-        const simplesStr = `${discord} | <@${discord}> - **Reprovado Entrevista:** ${observacoes ? observacoes : 'Motivo não informado.'}`;
+        const simplesStr = `ID: ${discord} | <@${discord}>\nMotivo: ${observacoes ? observacoes : 'Motivo não informado.'}`;
         const resultadoSimples = document.getElementById('resultadoReprovadosSimples');
         resultadoSimples.value += (resultadoSimples.value.trim() ? '\n\n' : '') + simplesStr;
         localStorage.setItem('resultadoReprovadosSimples', resultadoSimples.value);
       }
+
+      // Removido o armazenamento geral de entrevistas (entrevistasGerais)
+      // para focar apenas nas funcionalidades existentes do código original.
+      // E, consequentemente, as funções de manipulação desse storage (limparStorageGeral, copiarPorRumo, salvarTxtComDataHora, copiarReprovadosGeral)
+      // também foram removidas, pois não teriam dados para operar.
+
       limparCampos(true);
     }
 
@@ -318,11 +446,13 @@
       if (match) return `${match[1]}/${match[2]}/${match[3]}`;
       else {
         if (data.length > 0) {
-            alert('Formato de data inválido. Use: DD-MM-AAAA, DD/MM/AAAA ou DD MM AAAA.');
         }
         return '';
       }
     }
+    
+    // As funções relacionadas aos contadores (atualizarContadores, atualizarContadorVisual)
+    // também foram removidas, pois os elementos de UI para exibi-los foram retirados.
   </script>
 </body>
 </html>
