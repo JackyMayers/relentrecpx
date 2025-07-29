@@ -29,7 +29,7 @@
       width: 100%;
       height: 100px;
       background-color: #333;
-      color: #e0e0e0;
+      color: #f5f5f5; /* Cor do texto digitado */
       border: 1px solid #555;
     }
     select, input, textarea {
@@ -39,8 +39,20 @@
       border-radius: 5px;
       border: 1px solid #555;
       background-color: #333;
-      color: #e0e0e0;
+      color: #f5f5f5; /* Cor do texto digitado */
     }
+    /* Estilo para o placeholder */
+    ::placeholder {
+      color: #aaaaaa; /* Cor mais clara para o placeholder */
+      opacity: 1; /* Garante que não esteja transparente em alguns navegadores */
+    }
+    :-ms-input-placeholder { /* Para Internet Explorer 10-11 */
+      color: #aaaaaa;
+    }
+    ::-ms-input-placeholder { /* Para Microsoft Edge */
+      color: #aaaaaa;
+    }
+
     #idade {
       background-color: #1e1e1e;
       color: #e0e0e0;
@@ -120,6 +132,7 @@
       <input type="text" id="data" placeholder="Data de Nascimento (Ex: dd mm aaaa)">
       <input type="text" id="idade" placeholder="Idade" disabled>
       <input type="text" id="discord" placeholder="ID Discord">
+      <input type="text" id="nomePersonagem" placeholder="Nome do Personagem (RP)">
       <input type="text" id="entrevista" placeholder="Número da Entrevista">
       <select id="rumo">
         <option value="">Selecione o Rumo</option>
@@ -134,10 +147,9 @@
       <button class="aprovar" onclick="adicionar('aprovado')">Aprovar</button>
       <button class="reprovar" onclick="adicionar('reprovado')">Reprovar</button>
       <button class="limpar" onclick="limparCampos()">Limpar Tudo</button>
-
       <div class="reprove-tip">
         <strong>Atenção:</strong> Agora você consegue <strong>Reprovar</strong> sem precisar preencher todos os campos, usando apenas o ID Discord!<br>
-        <span style="color:#ffe082;font-weight:bold;">ℹ️</span> Aqui está o documento que deve ser repassado para o entrevistado: <a href="https://docs.google.com/document/d/1FRO7mZaNyVMSYKPTDAvXHE1kXz14GlOz5VGh7FhR-Kg/edit?pli=1&tab=t.0" style="color: red;">Regras básicas.</a>
+        <span style="color:#ffe082;font-weight:bold;">ℹ️</span> Aqui está o documento que deve ser repassado para o entrevistado: <a href="https://docs.google.com/document/d/1FRO7mZaNyVMSYKPTDAvXHE1kXz14GlOz5VGh7FhR-Kg/edit?pli=1&tab=t.0" style="color: red;" target="_blank">Regras básicas.</a>
       </div>
     </div>
     <div class="results">
@@ -172,7 +184,8 @@
 
   <script>
     window.onload = () => {
-      ['nome', 'data', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
+      // Carrega os dados salvos do localStorage, incluindo 'nomePersonagem'
+      ['nome', 'data', 'discord', 'nomePersonagem', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
         if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
       });
       ['resultadoAprovados', 'resultadoReprovadosDetalhado', 'resultadoReprovadosSimples'].forEach(id => {
@@ -216,7 +229,8 @@
       if (!aprovacao && !confirm("Tem certeza de que deseja limpar todos os campos?")) {
         return;
       }
-      ['nome', 'data', 'idade', 'discord', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
+      // Limpa os campos visuais e do localStorage, incluindo 'nomePersonagem'
+      ['nome', 'data', 'idade', 'discord', 'nomePersonagem', 'entrevista', 'rumo', 'rumoOutro', 'observacoes'].forEach(id => {
         document.getElementById(id).value = '';
         if (!aprovacao) localStorage.removeItem(id);
       });
@@ -244,6 +258,7 @@
       const data = formatarData(document.getElementById('data').value.trim());
       const idade = document.getElementById('idade').value.trim();
       const discord = document.getElementById('discord').value.trim();
+      const nomePersonagem = document.getElementById('nomePersonagem').value.trim(); // Pega o valor do novo campo
       const entrevista = document.getElementById('entrevista').value.trim();
       const rumoSelect = document.getElementById('rumo').value;
       const rumoOutro = document.getElementById('rumoOutro').value.trim();
@@ -267,6 +282,7 @@
         if (discord) resultadoAprovadosStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) resultadoAprovadosStr.push(`**Número da Entrevista:** ${entrevista}`);
         if (rumo) resultadoAprovadosStr.push(`**Rumo:** ${rumo}`);
+        if (nomePersonagem) resultadoAprovadosStr.push(`**Nome do Personagem :** ${nomePersonagem}`); // Inclui o nome do personagem
         if (observacoes) resultadoAprovadosStr.push(`**Observações:** ${observacoes}`);
 
         const resultadoAprovados = document.getElementById('resultadoAprovados');
@@ -280,6 +296,7 @@
         if (discord) detalhadoStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) detalhadoStr.push(`**Número da Entrevista:** ${entrevista}`);
         if (rumo) detalhadoStr.push(`**Rumo:** ${rumo}`);
+        if (nomePersonagem) detalhadoStr.push(`**Nome do Personagem :** ${nomePersonagem}`); // Inclui o nome do personagem
         if (observacoes) detalhadoStr.push(`**Observações:** ${observacoes}`);
         else detalhadoStr.push(`**Observações:** Motivo não informado.`);
 
@@ -301,7 +318,7 @@
       if (match) return `${match[1]}/${match[2]}/${match[3]}`;
       else {
         if (data.length > 0) {
-            alert('Formato de data inválido. Use: DD-MM-YYYY, DD/MM/YYYY ou DD MM AAAA.');
+            alert('Formato de data inválido. Use: DD-MM-AAAA, DD/MM/AAAA ou DD MM AAAA.');
         }
         return '';
       }
