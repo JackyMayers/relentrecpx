@@ -25,7 +25,6 @@
       --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.4);
       --transition-speed: 0.3s ease;
     }
-
     body {
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -38,7 +37,6 @@
       min-height: 100vh;
       box-sizing: border-box;
     }
-
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -47,7 +45,6 @@
       max-width: 1200px;
       margin-bottom: 20px;
     }
-
     .form, .results {
       flex: 1;
       min-width: 300px;
@@ -57,11 +54,9 @@
       box-shadow: var(--shadow-light);
       transition: all var(--transition-speed);
     }
-
     .form:hover, .results:hover {
         box-shadow: var(--shadow-hover);
     }
-
     h2, h3 {
       color: var(--text-light);
       margin-top: 0;
@@ -69,7 +64,6 @@
       border-bottom: 1px solid #3a3a3a;
       padding-bottom: 10px;
     }
-
     textarea {
       width: 100%;
       height: 120px;
@@ -82,7 +76,6 @@
       font-size: 0.95em;
       box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
     }
-
     select, input {
       width: 100%;
       margin-bottom: 15px;
@@ -94,12 +87,10 @@
       font-size: 0.95em;
       box-sizing: border-box;
     }
-
     ::placeholder {
       color: var(--text-muted);
       opacity: 1;
     }
-
     #idade {
       background-color: #333;
       color: #c0c0c0;
@@ -108,7 +99,6 @@
       margin-top: -5px;
       margin-bottom: 15px;
     }
-
     button {
       padding: 12px 20px;
       margin-right: 10px;
@@ -119,11 +109,9 @@
       transition: background-color 0.2s ease, transform 0.1s ease;
       min-width: 120px;
     }
-
     button:hover {
         transform: translateY(-2px);
     }
-
     button.aprovar { background-color: var(--accent-green); color: white; }
     button.aprovar:hover { background-color: #218838; }
     button.reprovar { background-color: var(--accent-red); color: white; }
@@ -135,16 +123,32 @@
     .limpar-individual { background-color: var(--accent-grey); color: white; margin-top: 10px; }
     .limpar-individual:hover { background-color: #5a6268; }
 
-    .botoes-principais, .input-group {
+    .botoes-principais {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 15px;
     }
-
-    .botoes-principais button, .input-group > * {
+    .botoes-principais button {
         flex: 1 1 0;
         min-width: 140px;
+    }
+    
+    /* MODIFICAÇÃO CHAVE: Ajustes para os novos input-groups */
+    .input-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Mantém o gap entre os campos */
+        margin-bottom: 15px;
+    }
+    .input-group > * {
+        flex: 1 1 0; /* Faz com que os itens dentro de um input-group tentem ocupar o mesmo espaço */
+        min-width: 140px; /* Garante que não fiquem muito pequenos */
+    }
+    /* Classe para input de largura total */
+    .input-full-width {
+        width: 100%;
+        flex: 1 0 100% !important; /* Garante que ocupe a largura total e ignore flex-basis */
     }
 
     footer {
@@ -165,7 +169,6 @@
     footer a:hover {
         text-decoration: underline;
     }
-
     .lembrete {
       text-align: center;
       margin-top: 25px;
@@ -180,7 +183,6 @@
       max-width: 1200px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-
     .images-container {
       display: flex;
       justify-content: center;
@@ -189,7 +191,6 @@
       margin-bottom: 15px;
       flex-wrap: wrap;
     }
-
     .images-container img {
       width: 110px;
       height: auto;
@@ -198,12 +199,10 @@
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .images-container img:hover {
       transform: scale(1.1) rotate(-3deg);
       box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     }
-
     .reprove-tip {
       margin-top: 20px;
       padding: 15px;
@@ -215,20 +214,16 @@
       line-height: 1.5;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-
     .reprove-tip strong {
       color: var(--accent-red);
     }
-
     .reprove-tip a {
         color: var(--accent-blue);
         text-decoration: none;
     }
-
     .reprove-tip a:hover {
         text-decoration: underline;
     }
-
     #copyFeedback {
         position: fixed;
         bottom: 20px;
@@ -243,7 +238,6 @@
         z-index: 1000;
         box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
-
     @media (max-width: 768px) {
         .container {
             flex-direction: column;
@@ -253,7 +247,8 @@
             padding: 15px;
             min-width: unset;
         }
-        .botoes-principais button, .input-group > * {
+        /* Ajuste para telas pequenas: campos de largura total dentro de input-group */
+        .input-group > * {
             min-width: 100%; /* Botões e inputs ocupam a largura total em telas pequenas */
         }
         .images-container img {
@@ -266,16 +261,25 @@
   <div class="container">
     <div class="form">
       <h2>Entrevista Complexo XP</h2>
+
       <div class="input-group">
-        <input type="text" id="nome" placeholder="Nome Completo (IRL)" autocomplete="off">
+        <input type="text" id="nome" placeholder="Nome Completo (IRL)" autocomplete="off" class="input-full-width">
+      </div>
+
+      <div class="input-group">
         <input type="text" id="data" placeholder="Data de Nascimento (Ex: dd mm aaaa)" autocomplete="off">
         <input type="text" id="idade" placeholder="Idade" disabled>
       </div>
+
       <div class="input-group">
         <input type="text" id="discord" placeholder="ID Discord" autocomplete="off">
-        <input type="text" id="nomePersonagem" placeholder="Nome do Personagem (RP)" autocomplete="off">
         <input type="text" id="entrevista" placeholder="Número da Entrevista" autocomplete="off">
       </div>
+
+      <div class="input-group">
+        <input type="text" id="nomePersonagem" placeholder="Nome do Personagem (RP)" autocomplete="off" class="input-full-width">
+      </div>
+
       <div class="input-group">
         <select id="rumo">
           <option value="">Selecione o Rumo</option>
@@ -287,14 +291,15 @@
         </select>
         <input type="text" id="rumoOutro" placeholder="Outro Rumo (se aplicável)" autocomplete="off">
       </div>
+
       <textarea id="observacoes" placeholder="Observações ou motivo da reprovação..."></textarea>
-            
+
       <div class="botoes-principais">
         <button class="aprovar" onclick="adicionar('aprovado')">Aprovar</button>
         <button class="reprovar" onclick="adicionar('reprovado')">Reprovar</button>
         <button class="limpar" onclick="limparCampos()">Limpar Tudo</button>
       </div>
-           
+
       <div class="reprove-tip">
         <strong>Atenção:</strong> Você pode **Reprovar** usando apenas o ID Discord, sem preencher todos os campos.<br><br>
         <span style="color:#e0e0e0;">ℹ️</span> Documento para o entrevistado: <a href="https://docs.google.com/document/d/1FRO7mZaNyVMSYKPTDAvXHE1kXz14GlOz5VGh7FhR-Kg/edit?pli=1&tab=t.0" target="_blank">Regras básicas.</a> <br><br>
@@ -449,8 +454,9 @@
       }
 
       if (status === 'aprovado') {
-        if (!nome || !data || !entrevista || !rumo) {
-          alert("Para aprovar, preencha Nome, Data de Nascimento, Nº da Entrevista e Rumo.");
+        // Agora exige Nome do Personagem (RP) E Número da Entrevista para aprovação
+        if (!nome || !data || !nomePersonagem || !entrevista || !rumo) {
+          alert("Para aprovar, preencha Nome Completo (IRL), Data de Nascimento, Nome do Personagem (RP), Número da Entrevista e Rumo.");
           return;
         }
 
@@ -459,8 +465,8 @@
         if (data) resultadoAprovadosStr.push(`**Data de Nascimento:** ${data} (${idade})`);
         if (discord) resultadoAprovadosStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) resultadoAprovadosStr.push(`**Número da Entrevista:** ${entrevista}`);
-        if (rumo) resultadoAprovadosStr.push(`**Rumo:** ${rumo}`);
         if (nomePersonagem) resultadoAprovadosStr.push(`**Nome do Personagem :** ${nomePersonagem}`);
+        if (rumo) resultadoAprovadosStr.push(`**Rumo:** ${rumo}`);
         if (observacoes) resultadoAprovadosStr.push(`**Observações:** ${observacoes}`);
 
         const resultadoAprovados = document.getElementById('resultadoAprovados');
@@ -478,8 +484,8 @@
         if (data) detalhadoStr.push(`**Data de Nascimento:** ${data} (${idade})`);
         if (discord) detalhadoStr.push(`**ID Discord:** ${discord} |<@${discord}>`);
         if (entrevista) detalhadoStr.push(`**Número da Entrevista:** ${entrevista}`);
-        if (rumo) detalhadoStr.push(`**Rumo:** ${rumo}`);
         if (nomePersonagem) detalhadoStr.push(`**Nome do Personagem :** ${nomePersonagem}`);
+        if (rumo) detalhadoStr.push(`**Rumo:** ${rumo}`);
         if (observacoes) detalhadoStr.push(`**Observações:** ${observacoes}`);
         else detalhadoStr.push(`**Observações:** Motivo não informado.`);
 
@@ -500,7 +506,9 @@
       const match = data.match(dataRegex);
       if (match) return `${match[1]}/${match[2]}/${match[3]}`;
       else {
+        // Não alerta aqui, pois o campo pode estar vazio intencionalmente para reprovação simples
         if (data.length > 0) {
+            // console.warn("Formato de data inválido. Use dd mm aaaa.");
         }
         return '';
       }
